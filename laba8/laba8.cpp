@@ -14,6 +14,9 @@ private:
     int weight;
     string color;
     int cost;
+    int VIN;
+    const static int number = 222;
+    static int allCarsCount;  
 
 public:
     void init() {
@@ -24,6 +27,8 @@ public:
         weight = 0;
         color = " ";
         cost = 0;
+        VIN = 0;
+        allCarsCount++;
     }
 
     void init(string brand, string model, int _year, int _power, int _weight, string _color, int _cost) {
@@ -36,7 +41,9 @@ public:
         weight = _weight;
         color = " ";
         color = _color;
+        VIN = 0;
         cost = _cost;
+        allCarsCount++;
     }
 
     void read() { //Ввод данных
@@ -53,6 +60,7 @@ public:
         cout << endl;
         cout << brand << " " << model << " " << year << "года" << endl;
         cout << power << "л.с. " << weight << "кг" << endl;
+        cout << "VIN: " << VIN << endl;
         cout << color << endl;
         cout << cost << endl;
     }
@@ -65,25 +73,36 @@ public:
         return cost;
     }
 
+    static int get_VIN_number() {
+        return number;
+    }
+
+     static int getCarsCount() {
+         return allCarsCount;
+     }
+
+    void set_VIN() {
+        string num = to_string(number);
+        num.append(to_string(allCarsCount));
+        VIN = stoi(num);
+    }
+
 };
 
 class Autoshow {
 private:
     Car car;
     int count;
-    static int allCarsCount;  
 
 public:
     void init() {
         car.init();
         count = 1;
-        allCarsCount++;
     }
 
     void init(Car _car, int _count) {
         car = _car;
         count = _count;
-        allCarsCount++;
     }
 
     void read() {
@@ -104,27 +123,21 @@ public:
     void changeCar(Car _car) {
         car = _car;
     }
-
-    static int getCarsCount() {
-        return allCarsCount;
-    }
 };
 
-int Autoshow::allCarsCount = 0;
+int Car::allCarsCount = 0;
 
 int main() {
     setlocale(LC_ALL, "rus");
 
-    Autoshow ashow[2];
-    Car car;
-    car.init("Ford", "F-150", 2013, 400, 3000, "black", 3000000);
-    ashow[0].init(); //1 экземпляр
-    ashow[1].init(); //2 экземпляр
-    ashow[0].changeCar(car);
-    ashow[0].display();
-    
-    cout << Autoshow::getCarsCount() << endl; //вывод 2
-
+    cout << Car::getCarsCount() << endl; 
+    Car car1, car2;
+    car1.init("Ford", "F-150", 2013, 400, 3000, "black", 3000000);
+    car1.set_VIN();
+    car2.init("Mazda", "3", 2005, 120, 1300, "red", 300000);
+    car2.set_VIN();
+    car1.display();
+    car2.display();
 
     return 0;
 }
